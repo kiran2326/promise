@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>PROMISE ASYNC AWAITS</h1><hr><hr>
+    <h1>Q1:Write one example explaining how you can write a callback function.</h1>
+  <pre>  function greet(name, callback) {
+  console.log("Hello, " + name + "!");
+  callback();
+}
+
+function sayGoodbye() {
+  console.log("Goodbye!");
+}
+greet("John", sayGoodbye);
+output:
+Hello, John!
+Goodbye!
+</pre>
+
+<h1>Q2:"Write a callback function to print numbers from 1 to 7, in which 1 should be printed after 1 sec, 2 should be printed after 2 sec, 3 should be printed after 3 sec, and so on. 
+
+Explain callback hell.
+Numbers
+1
+2
+3
+4
+5
+6
+7"</h1>
+<pre>
+    function printNumberWithDelay(number, delay, callback) {
+  setTimeout(function() {
+    console.log(number);
+    callback();
+  }, delay * 1000);
+}
+
+function printNumbersSequentially() {
+  var number = 1;
+  function printNextNumber() {
+    if (number <= 7) {
+      printNumberWithDelay(number, number, printNextNumber);
+      number++;
+    }
+  }
+  printNextNumber();
+}
+
+// Call the `printNumbersSequentially` function
+printNumbersSequentially();
+</pre>
+<h1>Q3:"Write the promise function to print numbers from 1 to 7, in which 1 should be printed after 1 sec, 2 should be printed after 2 sec, 3 should be printed after 3 sec, and so on. 
+
+Numbers
+1
+2
+3
+4
+5
+6
+7"</h1>
+<pre>
+    function printNumbersWithDelay() {
+  let currentNumber = 1;
+
+  function printNumber(number) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log(number);
+        resolve();
+      }, number * 1000);
+    });
+  }
+
+  function recursivePrint() {
+    if (currentNumber <= 7) {
+      printNumber(currentNumber)
+        .then(() => {
+          currentNumber++;
+          recursivePrint();
+        });
+    }
+  }
+
+  recursivePrint();
+}
+printNumbersWithDelay();
+</pre>
+<h1>Q4:"Create a promise function accepting an argument, if yes is passed to the function then it should go to resolved state and print Promise Resolved, and if nothing is passed 
+then it should go to reject the state and catch the error and print Promise Rejected "</h1>
+    <pre>
+    function checkPromise(argument) {
+  return new Promise((resolve, reject) => {
+    if (argument === "yes") {
+      resolve("Promise Resolved");
+    } else {
+      reject(new Error("Promise Rejected"));
+    }
+  });
+}
+
+// Usage
+checkPromise("yes")
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((error) => {
+    console.error(error.message);//Promise Resolved
+  });
+checkPromise()
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((error) => {
+    console.error(error.message); // Promise Rejected
+  });
+output:
+Promise Resolved
+Promise Rejected
+
+</pre>
+  <h1>Q5:Create examples to explain callback function</h1>
+  <pre>
+    function delayedGreeting(name, callback) {
+  setTimeout(function() {
+    console.log("Hello, " + name + "!");
+    callback();
+  }, 2000);
+}
+
+function sayGoodbye() {
+  console.log("Goodbye!");
+}
+
+delayedGreeting("Emily", sayGoodbye);
+
+output:
+Hello, Emily!
+Goodbye!
+
+  </pre>
+  <h1>Q6:Create examples to explain callback hell function</h1>
+  <pre>
+    // nesting of callbacks
+// node js callback hell
+function p() {
+    
+// first setTimeout function
+setTimeout(() => {
+    console.log(1)
+    // second nested setTimeout function
+    setTimeout(() => {
+        console.log(2)
+        // third nested setTimeout function
+        setTimeout(() => {
+            console.log(3)
+        }, 500)
+    }, 2000)
+}, 1000)
+};
+p();
+
+output:
+1
+2
+3
+  </pre>
+<h1>Q7:Create examples to explain promises function</h1>
+<pre>
+    const count = true;
+
+ let countValue = new Promise(function (resolve, reject) {
+    if (count) {
+         resolve("There is a count value.");
+     } else {
+         reject("There is no count value");
+     }
+ });
+ console.log(countValue);
+ output:
+ Promise { 'There is a count value.' }
+
+</pre>
+<h1>Q8:Create examples to explain async await function</h1>
+<pre>
+    async function f() {
+    console.log('Async function.');
+    return Promise.resolve(1);
+}
+
+f().then(function(result) {
+    console.log(result)
+});
+output:
+Async function.
+1
+</pre>
+<h1>Q9:Create examples to explain promise.all function</h1>
+<pre>const p1 = Promise.resolve(3);
+const p2 = 1337;
+const p3 = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve("foo");
+  }, 100);
+});
+
+Promise.all([p1, p2, p3]).then((values) => {
+  console.log(values); // [3, 1337, "foo"]
+});
+output:
+[ 3, 1337, 'foo' ]
+
+</pre>
+</body>
+</html>
